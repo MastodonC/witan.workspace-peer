@@ -9,27 +9,13 @@
             [taoensso.timbre.appenders.3rd-party.rotor :as rotor]
             [onyx.lifecycle.metrics.metrics]
             [onyx.lifecycle.metrics.timbre]
-            [witan.workspace-peer.launcher.web-server :as web]
-            ;;
-            [witan.models.dem.ccm.fert.hist-asfr-age]))
+            [witan.workspace-peer.launcher.web-server :as web]))
 
 (defn standard-out-logger
   "Logger to output on std-out, for use with docker-compose"
   [data]
   (let [{:keys [output-fn]} data]
     (println (output-fn data))))
-
-(def workflowfn-namespaces
-  ;; witan.models.demography
-  ['witan.models.dem.ccm.fert.hist-asfr-age])
-
-(defn ns-workflowfns
-  "Fetches exported workflowfns from a ns"
-  [ns-sym]
-  (->> ns-sym
-       (ns-publics)
-       (filter #(-> % second meta :witan/workflowfn :witan/exported?))
-       (mapv (juxt second (comp :witan/workflowfn meta second)))))
 
 (defn -main [n & args]
   (let [n-peers (Integer/parseInt n)
@@ -56,12 +42,9 @@
                          (doseq [v-peer peers]
                            (onyx.api/shutdown-peer v-peer))
                          (onyx.api/shutdown-peer-group peer-group)
-                         (shutdown-agents))))
+                         (shutdown-agents)
+                         (web/stop))))
     (t/info "Started peers. Starting web server...")
-    (let [registered-functions (mapcat ns-workflowfns workflowfn-namespaces)]
-      (t/debug "Found the following functions in a model:")
-      (doseq [[f _] registered-functions]
-        (t/debug " - " f)))
     ;; Start web server.
     (web/run 8080)
     (t/info "Started web sever. Blocking forever.")

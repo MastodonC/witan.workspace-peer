@@ -1,6 +1,7 @@
 (ns witan.workspace-peer.launcher.web-server
   (:require [org.httpkit.server :refer [run-server]]
-            [cheshire.core :refer :all]))
+            [cheshire.core :refer :all]
+            [witan.workspace-peer.config :as c]))
 
 (def server (atom nil))
 (defn json-response
@@ -15,7 +16,7 @@
 (defmethod route-me
   [:get "/functions"]
   [req]
-  (json-response {:functions [1 2 3]}))
+  (json-response {:functions (c/get-functions)}))
 
 (defmethod route-me
   [:get "/models"]
@@ -30,3 +31,9 @@
 (defn run
   [port]
   (reset! server (run-server route-me {:port port})))
+
+(defn stop
+  []
+  (when-not (nil? @server)
+    (@server :timeout 100)
+    (reset! server nil)))
