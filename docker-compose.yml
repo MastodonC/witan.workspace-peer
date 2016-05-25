@@ -9,9 +9,12 @@ peer:
           ONYX_ID: 1
           NPEERS: 6
         privileged: true
+        ports:
+          - "8080:8080"
         expose:
           - "40200"
           - "40200/udp"
+
 zookeeper:
         image: 'wurstmeister/zookeeper'
         ports:

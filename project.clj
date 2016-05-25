@@ -12,7 +12,13 @@
                  [org.onyxplatform/onyx-kafka "0.9.4.0"]
                  [org.onyxplatform/onyx-seq "0.9.4.0"]
                  [org.onyxplatform/onyx-sql "0.9.4.0"]
-                 [org.onyxplatform/onyx-metrics "0.9.4.0"]]
+                 [org.onyxplatform/onyx-metrics "0.9.4.0"]
+                 [http-kit "2.1.18"]
+                 [cheshire "5.6.1"]
+                 ;;
+                 [witan.workspace-api "0.1.0"]
+                 ;; Add function and model libraries here
+                 [witan.models.demography "0.1.0-SNAPSHOT" :exclusions [witan.workspace-api]]]
 
   :profiles {:uberjar {:aot [witan.workspace-peer.launcher.aeron-media-driver
                              witan.workspace-peer.launcher.launch-prod-peers]
