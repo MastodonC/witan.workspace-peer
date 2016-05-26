@@ -25,15 +25,14 @@
    [:all :about]])
 
 (deftest ns-resolve-finds-workflow-fns
-  (with-redefs [c/workflow-namespaces ['witan.workspace-peer.jobs.peer-test]]
-    (testing "workflow-fns function"
-      (let [[fn metadata] (first (c/workflow-fns))]
-        (is (= fn "#'witan.workspace-peer.jobs.peer-test/test-fn"))
-        (is (= metadata (-> #'test-fn meta :witan/workflowfn)))))
-    (testing "workflow-modes function"
-      (let [[model metadata] (first (c/workflow-models))]
-        (is (= model "#'witan.workspace-peer.jobs.peer-test/test-model"))
-        (is (= metadata (-> #'test-model meta :witan/workflowmodel))))))
+  (testing "workflow-fns function"
+    (let [[fn metadata] (first (c/workflow-fns ['witan.workspace-peer.jobs.peer-test]))]
+      (is (= fn "#'witan.workspace-peer.jobs.peer-test/test-fn"))
+      (is (= metadata (-> #'test-fn meta :witan/workflowfn)))))
+  (testing "workflow-modes function"
+    (let [[model metadata] (first (c/workflow-models ['witan.workspace-peer.jobs.peer-test]))]
+      (is (= model "#'witan.workspace-peer.jobs.peer-test/test-model"))
+      (is (= metadata (-> #'test-model meta :witan/workflowmodel)))))
   (testing "an external model"
     (let [result (c/workflow-fns)]
       (is result))))
