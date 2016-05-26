@@ -3,15 +3,14 @@
             ;;
             [witan.models.dem.ccm.fert.hist-asfr-age]))
 
-(def workflowfn-namespaces
+(def workflow-namespaces
   ;; witan.models.demography
   ['witan.models.dem.ccm.fert.hist-asfr-age])
 
-(defn get-functions
+(defn workflow-fns
   []
-  (let [result (mapcat ns-workflowfns workflowfn-namespaces)
-        result (map (fn [x] (-> x
-                                (update-in [1 :witan/input-schema] str)
-                                (update-in [1 :witan/output-schema] str)
-                                (update-in [1 :witan/param-] str))) result)]
-    result))
+  (mapcat ns-workflowfns workflow-namespaces))
+
+(defn workflow-models
+  []
+  (mapcat ns-workflowmodels workflow-namespaces))

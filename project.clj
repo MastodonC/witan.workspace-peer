@@ -13,6 +13,7 @@
                  [org.onyxplatform/onyx-seq "0.9.4.0"]
                  [org.onyxplatform/onyx-sql "0.9.4.0"]
                  [org.onyxplatform/onyx-metrics "0.9.4.0"]
+                 [com.outpace/schema-transit "0.2.3"]
                  [http-kit "2.1.18"]
                  [cheshire "5.6.1"]
                  ;;

@@ -1,8 +1,8 @@
 (ns witan.workspace-peer.jobs.peer-test
   (:require [clojure.test :refer [deftest is testing]]
             [schema.core :as s]
-            [witan.workspace-peer.utils.workflow :refer [ns-workflowfns]]
-            [witan.workspace-api :refer [defworkflowfn]]
+            [witan.workspace-peer.config :as c]
+            [witan.workspace-api :refer [defworkflowfn defworkflowmodel]]
             ;;
             [witan.models.dem.ccm.fert.hist-asfr-age]))
 
@@ -16,11 +16,25 @@
   [input params]
   {:foo "bar"})
 
+(defworkflowmodel test-model
+  "doc"
+  {:witan/name :default
+   :witan/version "1.0"}
+  [[:in :out]
+   [:shake [:pred :left :right]]
+   [:all :about]])
+
 (deftest ns-resolve-finds-workflow-fns
-  (testing "ns-workflowns function"
-    (let [[fn metadata] (first (mapcat ns-workflowfns ['witan.workspace-peer.jobs.peer-test]))]
-      (is (= fn "#'witan.workspace-peer.jobs.peer-test/test-fn"))
-      (is (= metadata (-> #'test-fn meta :witan/workflowfn)))))
+  (with-redefs [c/workflow-namespaces ['witan.workspace-peer.jobs.peer-test]]
+    (testing "workflow-fns function"
+      (let [[fn metadata] (first (c/workflow-fns))]
+        (is (= fn "#'witan.workspace-peer.jobs.peer-test/test-fn"))
+        (is (= metadata (-> #'test-fn meta :witan/workflowfn)))))
+    (testing "workflow-modes function"
+      (let [[model metadata] (first (c/workflow-models))]
+        (is (= model "#'witan.workspace-peer.jobs.peer-test/test-model"))
+        (is (= metadata (-> #'test-model meta :witan/workflowmodel))))))
   (testing "an external model"
-    (let [result (mapcat ns-workflowfns ['witan.models.dem.ccm.fert.hist-asfr-age])]
+    (let [result (c/workflow-fns)]
       (is result))))
+
