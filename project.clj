@@ -17,7 +17,7 @@
                  [http-kit "2.1.18"]
                  [cheshire "5.6.1"]
                  ;;
-                 [witan.workspace-api "0.1.0"]
+                 [witan.workspace-api "0.1.1-SNAPSHOT"]
                  ;; Add function and model libraries here
                  [witan.models.demography "0.1.0-SNAPSHOT" :exclusions [witan.workspace-api]]]
 

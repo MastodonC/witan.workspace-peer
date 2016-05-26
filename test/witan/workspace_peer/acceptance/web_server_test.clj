@@ -36,7 +36,5 @@
 
 (deftest schemas-returned-usable
   (is
-   (= (c/get-functions)
+   (= (c/workflow-fns)
       (:functions (get-resource)))))
-
-
