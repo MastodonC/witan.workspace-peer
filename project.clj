@@ -21,6 +21,8 @@
                  ;; Add function and model libraries here
                  [witan.models.demography "0.1.0-SNAPSHOT" :exclusions [witan.workspace-api]]]
 
+  :plugins [[lein-project-version "0.1.0"]]
+
   :profiles {:uberjar {:aot [witan.workspace-peer.launcher.aeron-media-driver
                              witan.workspace-peer.launcher.launch-prod-peers]
                        :uberjar-name "witan.workspace-peer-standalone.jar"}

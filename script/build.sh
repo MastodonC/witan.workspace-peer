@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 lein clean
 lein uberjar
-docker build -t witan.workspace-peer:0.1.0 . 
+docker build -t witan.workspace-peer:$(lein project-version) .
