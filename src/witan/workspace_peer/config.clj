@@ -7,14 +7,16 @@
   ;; witan.models.demography
   ['witan.models.dem.ccm.fert.hist-asfr-age])
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defn workflow-fns-
   ([]
    (workflow-fns- workflow-namespaces))
   ([ns]
-    (mapcat ns-workflowfns ns)))
+   (mapcat ns-workflowfns ns)))
 
 (def workflow-fns
-  (memoize 
+  (memoize
    workflow-fns-))
 
 (defn workflow-models-
@@ -25,3 +27,12 @@
 
 (def workflow-models
   (memoize workflow-models-))
+
+(defn workflow-predicates-
+  ([]
+   (workflow-predicates- workflow-namespaces))
+  ([ns]
+   (mapcat ns-workflowpredicates ns)))
+
+(def workflow-predicates
+  (memoize workflow-predicates-))
