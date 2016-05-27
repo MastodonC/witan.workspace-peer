@@ -25,16 +25,17 @@
                     {:handlers st/read-handlers})))
 
 (defn get-resource
-  []
-  (-> (client/get (str "http://localhost:" port "/functions") {:as :byte-array})
+  [uri]
+  (-> (client/get (str "http://localhost:" port uri) {:as :byte-array})
       deref
       :body
       io/input-stream
       transit-read))
 
-
-
 (deftest schemas-returned-usable
-  (is
-   (= (c/workflow-fns)
-      (:functions (get-resource)))))
+  (is (= (c/workflow-fns)
+         (:functions (get-resource "/functions"))))
+  (is (= (c/workflow-models)
+         (:models (get-resource "/models"))))
+  (is (= (c/workflow-predicates)
+         (:predicates (get-resource "/predicates")))))

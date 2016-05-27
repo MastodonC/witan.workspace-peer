@@ -36,7 +36,7 @@
 (defmethod route-me
   [:get "/functions"]
   [req]
-  (respond 
+  (respond
    {:functions (c/workflow-fns)}))
 
 (defmethod route-me
@@ -44,6 +44,12 @@
   [req]
   (respond
    {:models (c/workflow-models)}))
+
+(defmethod route-me
+  [:get "/predicates"]
+  [req]
+  (respond
+   {:predicates (c/workflow-predicates)}))
 
 (defmethod route-me
   :default
