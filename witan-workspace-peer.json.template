@@ -1,0 +1,44 @@
+{
+  "acceptedResourceRoles": ["slave_public"],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "mastodonc/witan.workspace-peer:@@TAG@@",
+      "privileged": true,
+      "parameters": [
+         {"key": "env", "value": "ENVIRONMENT=@@ENVIRONMENT@@"},
+         {"key": "log-driver", "value": "gelf"},
+         {"key": "log-opt", "value": "gelf-address=udp://@@ENVIRONMENT@@-logstash.@@VPC@@-kixi.mesos:12201"},
+         {"key": "label", "value": "cluster=@@ENVIRONMENT@@"},
+         {"key": "label", "value": "application=witan-workspace-peer"}
+
+         {"env":"ONYX_ID", "value":"1"}
+         {"env":"NPEERS",  "value":"6"}
+      ],
+      "network": "BRIDGE",
+      "portMappings": [
+          {
+              "containerPort": 8080,
+              "hostPort": 8080,
+              "protocol": "tcp"
+          },
+          {
+              "containerPort": 5001,
+              "hostPort": 5001,
+              "protocol": "tcp"
+          }
+      ]
+    }
+  },
+  "id": "witan-workspace-peer",
+  "cpus": 1,
+  "mem": 2048,
+  "healthChecks": [{
+        "protocol": "TCP",
+        "gracePeriodSeconds": 600,
+        "intervalSeconds": 30,
+        "portIndex": 0,
+        "timeoutSeconds": 10,
+        "maxConsecutiveFailures": 3
+  }]
+}
