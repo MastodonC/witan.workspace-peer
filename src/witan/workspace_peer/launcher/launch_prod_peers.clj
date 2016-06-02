@@ -11,6 +11,8 @@
             [onyx.lifecycle.metrics.timbre]
             [witan.workspace-peer.launcher.web-server :as web]))
 
+(def web-server-port 10015)
+
 (defn standard-out-logger
   "Logger to output on std-out, for use with docker-compose"
   [data]
@@ -46,7 +48,7 @@
                          (web/stop))))
     (t/info "Started peers. Starting web server...")
     ;; Start web server.
-    (web/run 8080)
-    (t/info "Started web sever. Blocking forever.")
+    (web/run web-server-port)
+    (t/info "Started web sever on" web-server-port)
     ;; Block forever.
     (<!! (chan))))
