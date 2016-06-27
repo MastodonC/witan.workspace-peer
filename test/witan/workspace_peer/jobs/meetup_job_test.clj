@@ -15,6 +15,7 @@
 (deftest onyx-dev-job-test
   (let [id (java.util.UUID/randomUUID)
         config (load-config)
+        _ (prn config)
         env-config (assoc (:env-config config) :onyx/tenancy-id id)
         peer-config (assoc (:peer-config config) :onyx/tenancy-id id)]
     ;; Be sure to set the peer count (5 here) to a number greater than

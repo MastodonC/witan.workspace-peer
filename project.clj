@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[aero "0.1.5" :exclusions [prismatic/schema]]
+                 [amazonica "0.3.61"]
                  [cheshire "5.5.0"]
                  [mysql/mysql-connector-java "5.1.18"]
                  [org.clojure/clojure "1.8.0"]
@@ -14,6 +15,9 @@
                  [org.onyxplatform/onyx-sql "0.9.4.0"]
                  [org.onyxplatform/onyx-metrics "0.9.4.0"]
                  [com.outpace/schema-transit "0.2.3"]
+                 [com.rpl/specter "0.9.3"]
+                 [com.taoensso/timbre "4.3.1"]
+                 [com.taoensso/carmine "2.12.2" :exclusions [com.taoensso/timbre com.taoensso/encore]]
                  [http-kit "2.1.18"]
                  [cheshire "5.6.1"]
                  ;;
