@@ -3,8 +3,7 @@
             [schema.test :as st]
             [aero.core :refer [read-config]]
             [clojure.core.async :refer [<!! >!! alts!! timeout chan pipe]]
-            [clojure.core.async.lab :refer [spool]]
-            [witan.workspace-peer.onyx :as o]
+            [clojure.core.async.lab :refer [spool]]           
             [io.aviso.exception :as pretty]
             [onyx
              [api]
@@ -22,9 +21,6 @@
 (prefer-method pretty/exception-dispatch clojure.lang.IRecord clojure.lang.IPersistentMap)
 
 (def config (atom {}))
-
-(defn redis-conn []
-  {:spec {:uri (get-in @config [:redis-config :redis/uri])}})
 
 (def batch-settings
   {:onyx/batch-size 1
@@ -53,6 +49,10 @@
                                         :s3/file "file"
                                         :s3/endpoint "eu-west-1"}))))
 
+(def job-defaults
+  {:task-scheduler :onyx.task-scheduler/balanced
+   :lifecycles []})
+
 (defn run-with-out
   [job]
   (let [job (add-task job (core-async/output :out batch-settings))
@@ -60,12 +60,9 @@
                 peer-config]} @config
         {:keys [out in]} (get-core-async-channels job)]
     (with-test-env [test-env [7 env-config peer-config]]
- (prn "Up")
       (onyx.test-helper/validate-enough-peers! test-env job)
       (let [job-id (:job-id (onyx.api/submit-job peer-config job))
-_ (prn "submitted")
-            result (alts!! [out (timeout 2000)])
-_ (prn "DONE")]
+            result (alts!! [out (timeout 2000)])]
         (onyx.api/await-job-completion peer-config job-id)
         (first result)))))
 
@@ -89,6 +86,12 @@ _ (prn "DONE")]
   [event]
   (str event "-X"))
 
+(def append-catalog-entry
+  {:onyx/name :append
+   :onyx/fn :onyx.acceptance.s3-test/append
+   :onyx/batch-size 1
+   :onyx/type :function})
+
 (defn s3-object
   [contents]
   (doto (S3Object.)
@@ -100,22 +103,18 @@ _ (prn "DONE")]
       (is (= (append contents)
              (run-with-out
               (add-s3-source 
-               (o/workspace->onyx-job
-                {:workflow [[:in :append]
-                            [:append :out]]
-                 :catalog [{:witan/name :append
-                            :witan/fn :onyx.acceptance.s3-test/append}]}
-                @config))))))))
+               (merge {:workflow [[:in :append]
+                                  [:append :out]]
+                       :catalog [append-catalog-entry]}
+                      job-defaults))))))))
 
 (deftest mocked-s3-output
   (let [contents "foo"]
     (is (= (append contents)
            (run-with-in
             (add-s3-sink
-             (o/workspace->onyx-job
-              {:workflow [[:in :append]
-                          [:append :out]]
-               :catalog [{:witan/name :append
-                          :witan/fn :onyx.acceptance.s3-test/append}]}
-              @config))
+             (merge {:workflow [[:in :append]
+                                [:append :out]]
+                     :catalog [append-catalog-entry]}
+                    job-defaults))
             contents)))))
