@@ -1,5 +1,5 @@
 peer:
-        image: 'mastodonc/witan.workspace-peer:0.1.0'
+        image: 'mastodonc/witan.workspace-peer:0.1.0-SNAPSHOT'
         links:
           - zookeeper:zk
           - kafka:kafka

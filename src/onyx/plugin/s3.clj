@@ -18,11 +18,11 @@
 ;; Output plugin code
 
 (defn put-s3object
-  [creds bucket stream]
+  [creds bucket file stream]
   (s3/put-object
    creds
    :bucket-name bucket
-   :key "stream"
+   :key file
    :input-stream stream
                                         ; Leaving off length, force the client to buffer and count itself, which is what we would do anyway
                                         ; :metadata {:content-length (count some-bytes)} 
@@ -44,7 +44,7 @@
     (onyx.peer.function/read-batch event))
   (write-batch [_ event]
     (when-let [stream (event->stream event)]
-      (put-s3object creds bucket stream))  
+      (put-s3object creds bucket file stream))  
     {})
   (seal-resource [_ _]
     {}))
@@ -73,7 +73,7 @@
 (defn get-content
   [^S3Object s3-object]
   (->> s3-object
-       .getObjectContent
+       :object-content
        (new java.io.InputStreamReader)
        slurp))
 
@@ -92,6 +92,7 @@
       :unsent (let [s3-object (get-s3object creds bucket file)]
                 (reset! state :sent)
                 (onyx-batch (get-content s3-object)))
+      :sent nil
       :ackd  (do (reset! state :done)
                  (onyx-batch :done))
       :done nil))
