@@ -5,6 +5,7 @@
             [witan.workspace-peer.jobs.meetup-job] ;; TODO remove me but include any models and tasks.
             [onyx.plugin.kafka]
             [onyx.plugin.sql]
+            [onyx.plugin.s3]
             [taoensso.timbre :as t]
             [taoensso.timbre.appenders.3rd-party.rotor :as rotor]
             [onyx.lifecycle.metrics.metrics]

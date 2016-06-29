@@ -14,8 +14,7 @@
              [core-async :refer [get-core-async-channels]]]
             [onyx.tasks
              [core-async :as core-async]
-             [s3 :as s3]]
-            [taoensso.carmine :as car :refer [wcar]])
+             [s3 :as s3]])
   (:import [com.amazonaws.services.s3.model S3Object]))
 
 (prefer-method pretty/exception-dispatch clojure.lang.IRecord clojure.lang.IPersistentMap)
@@ -73,7 +72,7 @@
                 peer-config]} @config
         out (chan)
         {:keys [in]} (get-core-async-channels job)]
-    (with-redefs [s3p/put-s3object (fn [_ _ stream] (>!! out (slurp stream)))]
+    (with-redefs [s3p/put-s3object (fn [_ _ _ stream] (>!! out (slurp stream)))]
       (with-test-env [test-env [7 env-config peer-config]]
         (pipe (spool [content :done]) in)
         (onyx.test-helper/validate-enough-peers! test-env job)
@@ -94,8 +93,7 @@
 
 (defn s3-object
   [contents]
-  (doto (S3Object.)
-    (.setObjectContent (java.io.StringBufferInputStream. contents))))
+  {:object-content (java.io.StringBufferInputStream. contents)})
 
 (deftest mocked-s3-input
   (let [contents "foo"]
