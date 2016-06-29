@@ -93,8 +93,7 @@
 
 (defn s3-object
   [contents]
-  (doto (S3Object.)
-    (.setObjectContent (java.io.StringBufferInputStream. contents))))
+  {:object-content (java.io.StringBufferInputStream. contents)})
 
 (deftest mocked-s3-input
   (let [contents "foo"]

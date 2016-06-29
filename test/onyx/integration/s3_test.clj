@@ -81,7 +81,7 @@
                                    :s3/endpoint "eu-west-1"})))
       ((partial onyx.api/submit-job peer-config))))
 
-(deftest s3-plugin-works
+(deftest ^:integration s3-plugin-works
   (let [in-file (unique-s3-file-name)
         _ (create-input-file in-file)
         out-file (unique-s3-file-name)
