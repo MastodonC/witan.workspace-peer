@@ -1,5 +1,5 @@
 FROM phusion/baseimage:0.9.17
-MAINTAINER Excellent Person <fill@me.in>
+MAINTAINER Antony Woods <antony@mastodonc.com>
 
 CMD ["/sbin/my_init"]
 
