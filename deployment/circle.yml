@@ -28,4 +28,8 @@ deployment:
       - docker build -t mastodonc/witan.workspace-peer-integration -f Dockerfile-integration . 
       - docker tag -f mastodonc/witan.workspace-peer-integration mastodonc/witan.workspace-peer-integration:latest
       - docker tag -f mastodonc/witan.workspace-peer-integration mastodonc/witan.workspace-peer-integration:git-$(echo $CIRCLE_SHA1 | cut -c1-12)
+      #deploy the integration image.
       - ./deploy.sh sandpit-staging-deploy.mastodonc.net staging -canary
+#wait for test results - call a test_passed.sh which will poll for results
+#determine outcome
+#deploy non-canary if success
