@@ -5,7 +5,6 @@ IMAGE_PREFIX=mastondonc
 APP_NAME=$1
 APP_VERSION=$2
 SEBASTOPOL_IP=$3
-ENVIRONMENT=$4
 
 TEST_FILE=test-output
 CURL_OUT=./curl_result
