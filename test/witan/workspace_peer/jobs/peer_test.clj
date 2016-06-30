@@ -2,9 +2,7 @@
   (:require [clojure.test :refer [deftest is testing]]
             [schema.core :as s]
             [witan.workspace-peer.config :as c]
-            [witan.workspace-api :refer [defworkflowfn defworkflowmodel defworkflowpred]]
-            ;;
-            [witan.models.dem.ccm.fert.hist-asfr-age]))
+            [witan.workspace-api :refer [defworkflowfn defworkflowmodel defworkflowpred]]))
 
 (defworkflowfn test-fn
   "This is a test"
