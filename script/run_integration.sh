@@ -17,7 +17,7 @@ export LEIN_ROOT=true
 ./lein deps
 ./lein test :integration 1> $TEST_FILE 2>&1
 
-curl -include -XPOST http://$MARTATHON:$MARATHON_PORT/v2/artifacts/$APP_NAME/$MARATHON_APP_VERSION/ --form file=@$TEST_FILE
+curl -include -XPOST http://$MARTATHON:$MARATHON_PORT/v2/artifacts/$APP_NAME/ --form file=@$TEST_FILE
 
 exit 0
 
