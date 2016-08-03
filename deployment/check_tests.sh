@@ -4,7 +4,6 @@
 APP_NAME=$1
 SEBASTOPOL_IP=$2
 
-TEST_FILE=test-output
 CURL_OUT=./curl_result
 TIMEOUT=2m
 
