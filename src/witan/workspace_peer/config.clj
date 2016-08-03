@@ -1,11 +1,11 @@
 (ns witan.workspace-peer.config
   (:require [witan.workspace-peer.utils.workflow :refer :all]
             ;;
-            [witan.models.dem.ccm.fert.fertility-mvp]))
+            [witan.models.dem.ccm.fert.fertility]))
 
 (def workflow-namespaces
   ;; witan.models.demography
-  ['witan.models.dem.ccm.fert.fertility-mvp])
+  ['witan.models.dem.ccm.fert.fertility])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
