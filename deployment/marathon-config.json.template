@@ -32,9 +32,9 @@
   },
   "id": "@@APP_NAME@@@@CANARY@@",
   "constraints": [["hostname", "UNIQUE"]],
-  "instances": 2,
-  "cpus": 1,
-  "mem": 2048,
+  "instances": @@INSTANCE_COUNT@@,
+  "cpus": 0.5,
+  "mem": 1048,
   "healthChecks": [{
         "protocol": "TCP",
         "gracePeriodSeconds": 600,

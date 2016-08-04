@@ -5,12 +5,13 @@ IMAGE_PREFIX=mastondonc
 APP_NAME=$1
 SEBASTOPOL_IP=$2
 ENVIRONMENT=$3
-CANARY=$4
+INSTANCE_COUNT=$4
+CANARY=$5
 
 # using deployment service sebastopol
 TAG=git-$(echo $CIRCLE_SHA1 | cut -c1-12)
 VPC=sandpit
-sed -e "s/@@TAG@@/$TAG/" -e "s/@@ENVIRONMENT@@/$ENVIRONMENT/" -e "s/@@VPC@@/$VPC/" -e "s/@@CANARY@@/$CANARY/" -e "s/@@APP_NAME@@/$APP_NAME/" -e "s/@@IMAGE_PREFIX@@/$IMAGE_PREFIX/" ./deployment/marathon-config.json.template > $APP_NAME$CANARY.json
+sed -e "s/@@TAG@@/$TAG/" -e "s/@@ENVIRONMENT@@/$ENVIRONMENT/" -e "s/@@VPC@@/$VPC/" -e "s/@@CANARY@@/$CANARY/" -e "s/@@APP_NAME@@/$APP_NAME/" -e "s/@@IMAGE_PREFIX@@/$IMAGE_PREFIX/"  -e "s/@@INSTANCE_COUNT@@/$INSTANCE_COUNT/" ./deployment/marathon-config.json.template > $APP_NAME$CANARY.json
 
 cat $APP_NAME$CANARY.json
 

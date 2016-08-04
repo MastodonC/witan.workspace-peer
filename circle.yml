@@ -18,7 +18,7 @@ deployment:
     branch: master
     commands:
       - export TAG=$(echo $CIRCLE_SHA1 | cut -c1-12)
-      - echo $TAG
+      - echo ${TAG}
       - lein clean
       - lein uberjar
       - docker build -t mastodonc/witan.workspace-peer -f deployment/Dockerfile .
@@ -26,11 +26,11 @@ deployment:
       - docker tag -f mastodonc/witan.workspace-peer mastodonc/witan.workspace-peer:git-${TAG}
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mastodonc/witan.workspace-peer
-      - ./deployment/deploy.sh witan.workspace-peer sandpit-staging-deploy.mastodonc.net staging -canary
+      - ./deployment/deploy.sh witan.workspace-peer sandpit-staging-deploy.mastodonc.net staging 1 -canary
       - docker build -t mastodonc/witan.workspace-peer-integration -f deployment/Dockerfile-integration . 
       - docker tag -f mastodonc/witan.workspace-peer-integration mastodonc/witan.workspace-peer-integration:latest
       - docker tag -f mastodonc/witan.workspace-peer-integration "mastodonc/witan.workspace-peer-integration:git-${TAG}"
-      - ./deployment/deploy.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net staging
+      - ./deployment/deploy.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net staging 1
       - ./deployment/check_tests.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net
       # Continue on success only
       # Destroy Canary!!

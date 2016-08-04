@@ -11,9 +11,9 @@ touch $CURL_OUT
 
 tail -f $CURL_OUT &
 
-STATUS=$(timeout $TIMEOUT "curl -s -o ./$CURL_OUT -X GET http://$SEBASTOPOL_IP:9501/marathon/$APP_NAME/file -H \"$SEKRIT_HEADER: 123\"")
+STATUS=$(timeout $TIMEOUT "curl -s -o $CURL_OUT -X GET http://$SEBASTOPOL_IP:9501/marathon/$APP_NAME/file -H \"$SEKRIT_HEADER: 123\"")
 
-if [ $STATUS == "200" ]
+if [ "$STATUS" == "200" ]
 then exit 0
 else exit 1
 fi
