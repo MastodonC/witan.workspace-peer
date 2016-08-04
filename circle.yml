@@ -24,12 +24,12 @@ deployment:
       - docker tag -f mastodonc/witan.workspace-peer mastodonc/witan.workspace-peer:git-$(echo $CIRCLE_SHA1 | cut -c1-12)
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mastodonc/witan.workspace-peer
-      - ./deployment/deploy.sh witan.workspace-peer sandpit-staging-deploy.mastodonc.net staging 1 -canary
+      - ./deployment/deploy.sh witan.workspace-peer sandpit-staging-deploy.mastodonc.net staging 1 $(echo $CIRCLE_SHA1 | cut -c1-12) -canary
       - docker build -t mastodonc/witan.workspace-peer-integration -f deployment/Dockerfile-integration . 
       - docker tag -f mastodonc/witan.workspace-peer-integration mastodonc/witan.workspace-peer-integration:latest
       - docker tag -f mastodonc/witan.workspace-peer-integration mastodonc/witan.workspace-peer-integration:git-$(echo $CIRCLE_SHA1 | cut -c1-12)
       - docker push mastodonc/witan.workspace-peer-integration
-      - ./deployment/deploy.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net staging 1
+      - ./deployment/deploy.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net staging 1 $(echo $CIRCLE_SHA1 | cut -c1-12)
       - ./deployment/check_tests.sh witan.workspace-peer-integration sandpit-staging-deploy.mastodonc.net
       # Continue on success only
       # Destroy Canary!!
