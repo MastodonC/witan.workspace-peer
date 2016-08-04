@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # replace dots with hyphens in APP_NAME
-IMAGE_PREFIX=mastondonc
+IMAGE_PREFIX=mastodonc
 APP_NAME=$1
 SEBASTOPOL_IP=$2
 ENVIRONMENT=$3
