@@ -16,14 +16,10 @@ touch $TEST_FILE
 ./lein clean
 ./lein deps
 
-{ echo -ne "HTTP/1.0 200 OK\r\n\r\n"; tail -n +0 -f $TEST_FILE; } | nc -l -p $INTEGRATION_TEST_PORT &
-NETCAT_PID=$!
 
 ./lein test :integration 1> $TEST_FILE 2>&1
 
-
-
-kill $NETCAT_PID
+{ echo -ne "HTTP/1.0 200 OK\r\n\r\n"; cat $TEST_FILE; } | nc -l -p $INTEGRATION_TEST_PORT 
 #Potential to lose the last bit of the file, if so introduce a wait or have a better idea
 
 exit 0
