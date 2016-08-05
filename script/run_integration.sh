@@ -16,8 +16,8 @@ touch $TEST_FILE
 ./lein clean
 ./lein deps
 
-{ echo -ne "HTTP/1.0 200 OK\r\n\r\n"; tail +0 -f $TEST_FILE; } | nc -l -p $INTEGRATION_TEST_PORT &
-NETCAT_PID = $!
+{ echo -ne "HTTP/1.0 200 OK\r\n\r\n"; tail -n +0 -f $TEST_FILE; } | nc -l -p $INTEGRATION_TEST_PORT &
+NETCAT_PID=$!
 
 ./lein test :integration 1> $TEST_FILE 2>&1
 
