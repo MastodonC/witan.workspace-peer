@@ -26,6 +26,11 @@
               "containerPort": 5001,
               "hostPort": 10016,
               "protocol": "tcp"
+          },
+          {
+              "containerPort": 6358,
+              "hostPort": 16358,
+              "protocol": "tcp"
           }
       ]
     }
