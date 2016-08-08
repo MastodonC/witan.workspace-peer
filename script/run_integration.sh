@@ -22,5 +22,7 @@ touch $TEST_FILE
 { echo -ne "HTTP/1.0 200 OK\r\n\r\n"; cat $TEST_FILE; } | nc -l -p $INTEGRATION_TEST_PORT 
 #Potential to lose the last bit of the file, if so introduce a wait or have a better idea
 
+echo "File Read"
+
 exit 0
 
