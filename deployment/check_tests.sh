@@ -11,6 +11,16 @@ touch $CURL_OUT
 
 tail -f $CURL_OUT &
 
+echo "Waiting for integration runner to be healthy"
+HEALTHY=/bin/false
+until HEALTHY; do
+  HEALTH=$(timeout $TIMEOUT "curl -X GET http://$SEBASTOPOL_IP:9501/marathon/$APP_NAME/health -H \"$SEKRIT_HEADER: 123\"")
+  if [ "$HEALTH" == "healthy" ]
+  then
+     HEALTHY=/bin/true
+  fi
+done
+
 STATUS=$(timeout $TIMEOUT "curl -s -o $CURL_OUT -X GET http://$SEBASTOPOL_IP:9501/marathon/$APP_NAME/file -H \"$SEKRIT_HEADER: 123\"")
 
 if [ "$STATUS" == "200" ]
