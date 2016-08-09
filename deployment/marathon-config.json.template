@@ -29,7 +29,7 @@
           },
           {
               "containerPort": 6358,
-              "hostPort": 16358,
+              "hostPort": 6358,
               "protocol": "tcp"
           }
       ]
