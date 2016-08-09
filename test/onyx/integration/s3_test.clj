@@ -34,9 +34,9 @@
    :onyx.messaging/peer-port 40200
    :onyx.messaging/bind-addr "localhost"})
 
-(def creds {:access-key "ADD_YOUR_OWN" ;ditto for below
-            :secret-key "ADD_YOUR_OWN"
-            :endpoint "eu-west-1"})
+(def creds {;:access-key "ADD_YOUR_OWN" ;ditto for below
+            ;:secret-key "ADD_YOUR_OWN"
+            :endpoint "eu-central-1"})
 
 (def bucket "mc-integration-testing")
 
